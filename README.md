@@ -14,7 +14,7 @@ PRÉ-REQUISITOS
 
 Python 3.8 ou superior. Navegadores instalados (via Playwright).
 
-MANUAL DE INSTRUÇÕES E RESOLUÇÃO DE PROBLEMAS (USANDO VS CODE, MAS PODE-SE USAR QUALQUER OUTRO EDITOR)
+MANUAL DE INSTRUÇÕES E RESOLUÇÃO DE PROBLEMAS (USANDO VS CODE)
 
 Siga este guia para rodar o projeto utilizando o terminal do VS Code.
 
@@ -22,31 +22,31 @@ PASSO 1: ABRIR O TERMINAL NO VS CODE
 
 Como fazer: Abra a pasta do projeto no VS Code. Olhe para a barra de menu no topo, clique em "Terminal" e depois selecione "New Terminal" (Novo Terminal). Um painel abrirá na parte inferior.
 
-PASSO 2: INSTALAR AS BIBLIOTECAS (WINDOWS E MAC)
+PASSO 2: INSTALAR AS BIBLIOTECAS (COMANDOS BLINDADOS)
 
-Comando (Windows): pip install -r requirements.txt
+Nesta etapa, usaremos um comando que invoca o instalador diretamente pelo Python, evitando erros de caminho não encontrado.
 
-Comando (Mac): pip3 install -r requirements.txt
+Comando Principal (Windows): python -m pip install -r requirements.txt
 
-O que esse comando faz: Ele lê o arquivo requirements.txt e faz o download de todas as dependências listadas (Flask, Pandas, etc) necessárias para o código rodar.
+Comando Alternativo (Windows - se o de cima falhar): py -m pip install -r requirements.txt
 
-Erros possíveis:
+Comando (Mac): python3 -m pip install -r requirements.txt
 
-Erro: "pip is not recognized". Por que ocorre: O Python não foi instalado corretamente no Windows ou não foi adicionado ao PATH.
+O que esse comando faz: O trecho "-m pip" diz ao computador: "Não procure pelo programa pip solto no sistema, use o pip que está dentro deste Python que estou rodando agora". Isso garante que as bibliotecas sejam instaladas no lugar certo e funciona mesmo se o atalho do pip estiver quebrado.
 
-Erro: "command not found: pip3". Por que ocorre: O Python 3 não está instalado no Mac.
+Erros possíveis e solução definitiva: Se aparecer "python não é reconhecido" ou nada acontecer: Significa que o Python não está nas Variáveis de Ambiente. A solução única é reinstalar o Python. Baixe o instalador novamente no site python.org, execute-o e OBRIGATORIAMENTE marque a caixa "Add Python to PATH" na primeira tela antes de clicar em Install. Reinicie o VS Code após isso.
 
 PASSO 3: INSTALAR O NAVEGADOR DE AUTOMAÇÃO
 
-Comando: playwright install chromium
+Comando (Windows): python -m playwright install chromium
 
-O que esse comando faz: Baixa especificamente o navegador Chromium adaptado para automação. É necessário rodar este comando pois o Playwright não usa o Chrome que você já tem instalado, ele precisa de uma versão própria para garantir que o robô funcione sem interferências de cookies ou extensões pessoais.
+Comando (Mac): python3 -m playwright install chromium
+
+O que esse comando faz: Baixa especificamente o navegador Chromium adaptado para automação. Usamos "python -m" novamente para garantir que o comando seja executado corretamente pela biblioteca que acabamos de instalar.
 
 Erros possíveis:
 
-Erro: "playwright is not recognized". Por que ocorre: O terminal não reconheceu a instalação da biblioteca do passo anterior. Feche o terminal (ícone da lixeira) e abra um novo.
-
-Erro de conexão: Por que ocorre: Internet instável ou bloqueio de rede impedindo o download do binário do navegador.
+Erro de conexão: Por que ocorre: Internet instável ou bloqueio de rede corporativa (firewall) impedindo o download. Tente usar uma rede pessoal (4G/Wi-Fi de casa).
 
 PASSO 4: RODAR A APLICAÇÃO
 
@@ -60,9 +60,9 @@ Sobre o aviso "WARNING: This is a development server...": Você verá esta mensa
 
 Erros possíveis:
 
-Erro: "ModuleNotFoundError". Por que ocorre: O Passo 2 falhou e alguma biblioteca está faltando.
+Erro: "ModuleNotFoundError". Por que ocorre: O Passo 2 falhou. Tente rodar novamente o Passo 2 e leia atentamente se aparece "Successfully installed" no final.
 
-Erro: "Address already in use". Por que ocorre: Você já tem outro terminal rodando o projeto. Encerre os outros terminais.
+Erro: "Address already in use". Por que ocorre: Você já tem outro terminal rodando o projeto. Encerre os outros terminais clicando no ícone de lixeira do painel do terminal.
 
 PASSO FINAL: ACESSAR O DASHBOARD
 
