@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Origenow - Análise de Marketplaces</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #7D61D2;
+            color: #EEEDEC;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Logo Fixa */
+        .logo-fixed {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            height: 50px;
+            width: auto;
+        }
+
+        /* Tela Inicial */
+        .initial-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+            text-align: center;
+            padding-top: 80px;
+        }
+
+        .title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #EEEDEC;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #EEEDEC;
+            opacity: 0.8;
+            margin-bottom: 40px;
+        }
+
+        .search-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 18px 24px;
+            font-size: 1.1rem;
+            background-color: #6730BE;
+            border: 2px solid #6730BE;
+            border-radius: 12px;
+            color: #EEEDEC;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #EEEDEC;
+            background-color: #7D61D2;
+        }
+
+        .search-input::placeholder {
+            color: #EEEDEC;
+            opacity: 0.6;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 18px 24px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            background-color: #6730BE;
+            color: #EEEDEC;
+            border: 2px solid #6730BE;
+            border-radius: 12px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #EEEDEC;
+            color: #6730BE;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(238, 237, 236, 0.3);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Loading */
+        .loading-screen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+            text-align: center;
+            padding-top: 80px;
+        }
+
+        .loading-screen.active {
+            display: flex;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid #6730BE;
+            border-top-color: #EEEDEC;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-size: 1.3rem;
+            color: #EEEDEC;
+            font-weight: 500;
+            min-height: 30px;
+        }
+
+        /* Dashboard */
+        .dashboard {
+            display: none;
+            padding-top: 80px;
+        }
+
+        .dashboard.active {
+            display: block;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .dashboard-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #EEEDEC;
+        }
+
+        .btn-secondary {
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: 500;
+            background-color: #6730BE;
+            color: #EEEDEC;
+            border: 2px solid #6730BE;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background-color: #EEEDEC;
+            color: #6730BE;
+        }
+
+        .btn-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        /* Filtros */
+        .filters {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            background-color: #6730BE;
+            color: #EEEDEC;
+            border: 2px solid #6730BE;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover {
+            background-color: #EEEDEC;
+            color: #6730BE;
+        }
+
+        .filter-btn.active {
+            background-color: #EEEDEC;
+            color: #6730BE;
+            border-color: #EEEDEC;
+        }
+
+        /* Agrupamento por Termo */
+        .termo-section {
+            margin-bottom: 50px;
+        }
+
+        .termo-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #EEEDEC;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #6730BE;
+        }
+
+        /* Grid de Resultados */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+            margin-top: 20px;
+        }
+
+        .product-card {
+            background-color: #6730BE;
+            border: 2px solid #6730BE;
+            border-radius: 12px;
+            padding: 24px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .product-card:hover {
+            border-color: #EEEDEC;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(238, 237, 236, 0.2);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .position-badge {
+            background-color: #EEEDEC;
+            color: #6730BE;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .marketplace-badge {
+            background-color: #7D61D2;
+            color: #EEEDEC;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .price {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #EEEDEC;
+            margin-bottom: 12px;
+        }
+
+        .product-title {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #EEEDEC;
+            margin-bottom: 8px;
+        }
+
+        .product-title a {
+            color: #EEEDEC;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .product-title a:hover {
+            color: #EEEDEC;
+            opacity: 0.8;
+        }
+
+        .product-link {
+            font-size: 0.85rem;
+            color: #EEEDEC;
+            opacity: 0.8;
+            text-decoration: none;
+            display: block;
+            margin-top: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .product-link:hover {
+            opacity: 1;
+            color: #EEEDEC;
+        }
+
+        /* Tooltip de Imagem */
+        .image-tooltip {
+            position: absolute;
+            z-index: 1000;
+            background-color: #6730BE;
+            border: 2px solid #EEEDEC;
+            border-radius: 8px;
+            padding: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+            display: none;
+            pointer-events: none;
+            max-width: 300px;
+        }
+
+        .image-tooltip.active {
+            display: block;
+        }
+
+        .image-tooltip img {
+            width: 100%;
+            height: auto;
+            border-radius: 6px;
+            display: block;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: #EEEDEC;
+            opacity: 0.8;
+            font-size: 1.1rem;
+        }
+
+        /* Responsivo */
+        @media (max-width: 768px) {
+            .logo-fixed {
+                height: 40px;
+                top: 15px;
+                left: 15px;
+            }
+
+            .title {
+                font-size: 2rem;
+            }
+
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .btn-actions {
+                width: 100%;
+            }
+
+            .btn-secondary {
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Logo Fixa -->
+    <img src="/static/logo.webp" alt="Origenow Logo" class="logo-fixed" onerror="this.style.display='none'">
+
+    <div class="container">
+        <!-- Tela Inicial -->
+        <div class="initial-screen" id="initialScreen">
+            <h1 class="title">Análise de Marketplaces</h1>
+            <p class="subtitle">Compare produtos dos principais marketplaces do Brasil</p>
+            <div class="search-container">
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    class="search-input" 
+                    placeholder="Digite termos separados por vírgula"
+                    autocomplete="off"
+                >
+                <button class="btn-primary" id="searchBtn" onclick="executarBusca()">Buscar</button>
+            </div>
+        </div>
+
+        <!-- Loading -->
+        <div class="loading-screen" id="loadingScreen">
+            <div class="spinner"></div>
+            <p class="loading-text" id="loadingText">Realizando as buscas...</p>
+        </div>
+
+        <!-- Dashboard -->
+        <div class="dashboard" id="dashboard">
+            <div class="dashboard-header">
+                <h2 class="dashboard-title">Resultados da Busca</h2>
+                <div class="btn-actions">
+                    <button class="btn-secondary" onclick="downloadExcel()">Download Excel</button>
+                    <button class="btn-secondary" onclick="novaBusca()">Nova Busca</button>
+                </div>
+            </div>
+
+            <div class="filters">
+                <button class="filter-btn active" onclick="filtrar('todas')">Todas</button>
+                <button class="filter-btn" onclick="filtrar('Amazon BR')">Amazon</button>
+                <button class="filter-btn" onclick="filtrar('Mercado Livre')">ML</button>
+            </div>
+
+            <div id="resultsContainer">
+                <!-- Seções agrupadas por termo serão inseridas aqui -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Tooltip de Imagem -->
+    <div class="image-tooltip" id="imageTooltip">
+        <img id="tooltipImage" src="" alt="Imagem do produto">
+    </div>
+
+    <script>
+        let produtosData = [];
+        let filtroAtual = 'todas';
+        let loadingPhrases = [
+            'Realizando as buscas...',
+            'Quase lá...',
+            'Só mais um pouquinho...'
+        ];
+        let loadingPhraseIndex = 0;
+        let loadingInterval = null;
+
+        // Executar busca
+        async function executarBusca() {
+            const input = document.getElementById('searchInput');
+            const keywords = input.value.trim();
+
+            if (!keywords) {
+                alert('Por favor, digite pelo menos um termo de busca.');
+                return;
+            }
+
+            // Esconder tela inicial e mostrar loading
+            document.getElementById('initialScreen').style.display = 'none';
+            document.getElementById('loadingScreen').classList.add('active');
+            document.getElementById('dashboard').classList.remove('active');
+            document.getElementById('searchBtn').disabled = true;
+
+            // Iniciar rotação de frases
+            iniciarRotacaoFrases();
+
+            try {
+                // Enviar requisição para executar busca
+                const response = await fetch('/executar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ keywords: keywords })
+                });
+
+                const data = await response.json();
+
+                if (data.status === 'ok') {
+                    // Parar rotação e mostrar 'Pronto!'
+                    pararRotacaoFrases();
+                    mostrarPronto();
+                    // Aguardar um pouco e buscar os dados
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    await carregarDados();
+                } else {
+                    pararRotacaoFrases();
+                    alert('Erro ao executar busca: ' + (data.mensagem || 'Erro desconhecido'));
+                    novaBusca();
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                pararRotacaoFrases();
+                alert('Erro ao executar busca. Tente novamente.');
+                novaBusca();
+            } finally {
+                document.getElementById('searchBtn').disabled = false;
+            }
+        }
+
+        // Rotação de frases no loading
+        function iniciarRotacaoFrases() {
+            loadingPhraseIndex = 0;
+            const loadingText = document.getElementById('loadingText');
+            loadingText.textContent = loadingPhrases[0];
+            
+            loadingInterval = setInterval(() => {
+                loadingPhraseIndex = (loadingPhraseIndex + 1) % loadingPhrases.length;
+                loadingText.textContent = loadingPhrases[loadingPhraseIndex];
+            }, 15000);
+        }
+
+        function pararRotacaoFrases() {
+            if (loadingInterval) {
+                clearInterval(loadingInterval);
+                loadingInterval = null;
+            }
+        }
+
+        // Mostrar 'Pronto!'
+        function mostrarPronto() {
+            const loadingText = document.getElementById('loadingText');
+            loadingText.textContent = 'Pronto!';
+        }
+
+        // Download Excel
+        function downloadExcel() {
+            window.location.href = '/download';
+        }
+
+        // Carregar dados do JSON
+        async function carregarDados() {
+            try {
+                const response = await fetch('/dados');
+                const data = await response.json();
+
+                if (response.ok && Array.isArray(data)) {
+                    produtosData = data;
+                    // Aguardar 500ms após 'Pronto!' antes de exibir resultados
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                    exibirResultados();
+                } else {
+                    pararRotacaoFrases();
+                    alert('Erro ao carregar dados: ' + (data.mensagem || 'Dados não encontrados'));
+                    novaBusca();
+                }
+            } catch (error) {
+                console.error('Erro ao carregar dados:', error);
+                pararRotacaoFrases();
+                alert('Erro ao carregar dados. Tente novamente.');
+                novaBusca();
+            }
+        }
+
+        // Exibir resultados agrupados por termo
+        function exibirResultados() {
+            const container = document.getElementById('resultsContainer');
+            container.innerHTML = '';
+
+            // Filtrar produtos
+            let produtosFiltrados = produtosData;
+            if (filtroAtual !== 'todas') {
+                produtosFiltrados = produtosData.filter(p => p.Marketplace === filtroAtual);
+            }
+
+            if (produtosFiltrados.length === 0) {
+                container.innerHTML = '<div class="no-results">Nenhum resultado encontrado para o filtro selecionado.</div>';
+                return;
+            }
+
+            // Agrupar por termo pesquisado
+            const produtosPorTermo = {};
+            produtosFiltrados.forEach(produto => {
+                const termo = produto['Termo Pesquisado'];
+                if (!produtosPorTermo[termo]) {
+                    produtosPorTermo[termo] = [];
+                }
+                produtosPorTermo[termo].push(produto);
+            });
+
+            // Criar seções para cada termo
+            Object.keys(produtosPorTermo).forEach(termo => {
+                const section = document.createElement('div');
+                section.className = 'termo-section';
+
+                const title = document.createElement('h2');
+                title.className = 'termo-title';
+                title.textContent = termo;
+                section.appendChild(title);
+
+                const grid = document.createElement('div');
+                grid.className = 'results-grid';
+
+                produtosPorTermo[termo].forEach(produto => {
+                    const card = criarCard(produto);
+                    grid.appendChild(card);
+                });
+
+                section.appendChild(grid);
+                container.appendChild(section);
+            });
+
+            // Esconder loading e mostrar dashboard
+            document.getElementById('loadingScreen').classList.remove('active');
+            document.getElementById('dashboard').classList.add('active');
+        }
+
+        // Criar card de produto
+        function criarCard(produto) {
+            const card = document.createElement('div');
+            card.className = 'product-card';
+
+            const precoFormatado = produto.Preço ? 
+                `R$ ${produto.Preço.toFixed(2).replace('.', ',')}` : 
+                'Preço não disponível';
+
+            card.innerHTML = `
+                <div class="card-header">
+                    <span class="position-badge">#${produto['Posição no Ranking']}</span>
+                    <span class="marketplace-badge">${produto.Marketplace}</span>
+                </div>
+                <div class="price">${precoFormatado}</div>
+                <div class="product-title">
+                    <a href="${produto['Link do Produto']}" target="_blank" 
+                       onmouseenter="mostrarTooltip(event, '${produto.Imagem || ''}')"
+                       onmouseleave="esconderTooltip()"
+                       onmousemove="moverTooltip(event)">
+                        ${produto['Título do Produto']}
+                    </a>
+                </div>
+                <a href="${produto['Link do Produto']}" target="_blank" class="product-link">
+                    Ver produto →
+                </a>
+            `;
+
+            return card;
+        }
+
+        // Filtrar resultados
+        function filtrar(marketplace) {
+            filtroAtual = marketplace;
+
+            // Atualizar botões de filtro
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Reexibir resultados
+            exibirResultados();
+        }
+
+        // Nova busca
+        function novaBusca() {
+            produtosData = [];
+            filtroAtual = 'todas';
+            document.getElementById('searchInput').value = '';
+            document.getElementById('initialScreen').style.display = 'flex';
+            document.getElementById('loadingScreen').classList.remove('active');
+            document.getElementById('dashboard').classList.remove('active');
+            pararRotacaoFrases();
+            document.querySelectorAll('.filter-btn').forEach((btn, index) => {
+                btn.classList.toggle('active', index === 0);
+            });
+        }
+
+        // Tooltip de imagem
+        function mostrarTooltip(event, imagemUrl) {
+            if (!imagemUrl) return;
+
+            const tooltip = document.getElementById('imageTooltip');
+            const tooltipImage = document.getElementById('tooltipImage');
+            
+            tooltipImage.src = imagemUrl;
+            tooltip.classList.add('active');
+            moverTooltip(event);
+        }
+
+        function esconderTooltip() {
+            const tooltip = document.getElementById('imageTooltip');
+            tooltip.classList.remove('active');
+        }
+
+        function moverTooltip(event) {
+            const tooltip = document.getElementById('imageTooltip');
+            if (!tooltip.classList.contains('active')) return;
+
+            const offset = 15;
+            tooltip.style.left = (event.pageX + offset) + 'px';
+            tooltip.style.top = (event.pageY + offset) + 'px';
+        }
+
+        // Permitir busca com Enter
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                executarBusca();
+            }
+        });
+    </script>
+</body>
+</html>
