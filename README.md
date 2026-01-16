@@ -14,7 +14,7 @@ PRÉ-REQUISITOS
 
 Python 3.8 ou superior. Navegadores instalados (via Playwright).
 
-MANUAL DE INSTRUÇÕES E RESOLUÇÃO DE PROBLEMAS (USANDO VS CODE)
+MANUAL DE INSTRUÇÕES E RESOLUÇÃO DE PROBLEMAS (USANDO VS CODE, MAS PODE-SE USAR QUALQUER OUTRO EDITOR)
 
 Siga este guia para rodar o projeto utilizando o terminal do VS Code.
 
