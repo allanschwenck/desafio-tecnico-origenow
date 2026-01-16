@@ -1,53 +1,85 @@
-# Desafio Técnico - Monitoramento de Marketplaces (Top 30)
+DESAFIO TÉCNICO - MONITORAMENTO DE MARKETPLACES (TOP 30)
 
-Este projeto é uma solução full-stack para extração e visualização de dados de e-commerce (Mercado Livre e Amazon). O sistema realiza scraping automatizado, processa os dados e apresenta um dashboard interativo.
+Este projeto é uma solução full-stack para remoção e visualização de dados de e-commerce (Mercado Livre e Amazon). O sistema realiza scraping automatizado, processa os dados e apresenta um dashboard interativo.
 
-## Funcionalidades
+FUNCIONALIDADES
 
-* **Scraping Robusto:** Utiliza Playwright para navegar como um usuário real, contornando bloqueios básicos.
-* **Front-end Moderno:** Interface Dark Mode (Identidade Origenow), com feedback em tempo real e tooltips de imagem.
-* **Dados:** Gera Excel (`resultado.xlsx`) e JSON (`resultado.json`).
-* **Resiliência:** Sistema de retries, timeouts ajustados e User-Agents rotativos.
+Scraping Robusto: Utiliza Playwright para navegar como um usuário real, contornando bloqueios básicos. Front-end Moderno: Interface Dark Mode (Identidade Origenow), com feedback em tempo real e tooltips de imagem. Dados: Gera Excel (resultado.xlsx) e JSON (resultado.json). Resiliência: Sistema de novas tentativas, timeouts ajustados e User-Agents rotativos.
 
-## Tecnologias
+TECNOLOGIAS
 
-* **Backend:** Python 3, Flask, Pandas, Playwright.
-* **Frontend:** HTML5, CSS3, JavaScript (Fetch API).
+Backend: Python 3, Flask, Pandas, Playwright. Frontend: HTML5, CSS3, JavaScript (Fetch API).
 
-## Pré-requisitos
+PRÉ-REQUISITOS
 
-* Python 3.8+
-* Navegadores instalados (via Playwright)
+Python 3.8 ou superior. Navegadores instalados (via Playwright).
 
-## Como rodar o projeto
+MANUAL DE INSTRUÇÕES E RESOLUÇÃO DE PROBLEMAS (USANDO VS CODE, MAS PODE-SE USAR QUALQUER OUTRO EDITOR)
 
-1.  **Clone o repositório ou extraia o zip.**
-2.  **Instale as dependências:**
-    ```bash
-    pip install -r requirements.txt
-    ```
-3.  **Instale os navegadores do robô:**
-    ```bash
-    playwright install chromium
-    ```
-4.  **Execute o servidor:**
-    ```bash
-    python app.py
-    ```
-5.  **No navegador:**
-    Abra `http://127.0.0.1:5000`
+Siga este guia para rodar o projeto utilizando o terminal do VS Code.
 
-## Decisões de Projeto
+PASSO 1: ABRIR O TERMINAL NO VS CODE
 
-* **Playwright vs Requests:** Optei pelo Playwright para garantir a renderização de elementos dinâmicos (JavaScript) e evitar bloqueios de bot (erro 403), simulando um comportamento humano.
-* **Flask:** Utilizado para criar uma ponte simples entre a interface web e o script de automação.
-* **Ordenação:** * *Amazon:* Parâmetro de URL para "Mais Vendidos".
-    * *Mercado Livre:* Busca padrão "Mais Relevantes" (proxy para vendas conforme documentação).
+Como fazer: Abra a pasta do projeto no VS Code. Olhe para a barra de menu no topo, clique em "Terminal" e depois selecione "New Terminal" (Novo Terminal). Um painel abrirá na parte inferior.
 
-## Limitações Conhecidas
+PASSO 2: INSTALAR AS BIBLIOTECAS (WINDOWS E MAC)
 
-* O processo é síncrono; a interface aguarda o fim do scraping para exibir resultados (tempo médio: 20-40s dependendo da internet).
-* Depende da estrutura HTML dos marketplaces; mudanças drásticas no layout podem requerer atualização dos seletores CSS.
+Comando (Windows): pip install -r requirements.txt
 
----
-Desenvolvido como parte do teste técnico para Origenow.
+Comando (Mac): pip3 install -r requirements.txt
+
+O que esse comando faz: Ele lê o arquivo requirements.txt e faz o download de todas as dependências listadas (Flask, Pandas, etc) necessárias para o código rodar.
+
+Erros possíveis:
+
+Erro: "pip is not recognized". Por que ocorre: O Python não foi instalado corretamente no Windows ou não foi adicionado ao PATH.
+
+Erro: "command not found: pip3". Por que ocorre: O Python 3 não está instalado no Mac.
+
+PASSO 3: INSTALAR O NAVEGADOR DE AUTOMAÇÃO
+
+Comando: playwright install chromium
+
+O que esse comando faz: Baixa especificamente o navegador Chromium adaptado para automação. É necessário rodar este comando pois o Playwright não usa o Chrome que você já tem instalado, ele precisa de uma versão própria para garantir que o robô funcione sem interferências de cookies ou extensões pessoais.
+
+Erros possíveis:
+
+Erro: "playwright is not recognized". Por que ocorre: O terminal não reconheceu a instalação da biblioteca do passo anterior. Feche o terminal (ícone da lixeira) e abra um novo.
+
+Erro de conexão: Por que ocorre: Internet instável ou bloqueio de rede impedindo o download do binário do navegador.
+
+PASSO 4: RODAR A APLICAÇÃO
+
+Comando (Windows): python app.py
+
+Comando (Mac): python3 app.py
+
+O que esse comando faz: Inicia o servidor Flask. Ele cria uma ponte entre a interface visual (HTML) e o script de automação em Python.
+
+Sobre o aviso "WARNING: This is a development server...": Você verá esta mensagem em vermelho. Não se preocupe. Ela indica que o servidor subiu corretamente para testes locais e não deve ser usado em grandes servidores de produção.
+
+Erros possíveis:
+
+Erro: "ModuleNotFoundError". Por que ocorre: O Passo 2 falhou e alguma biblioteca está faltando.
+
+Erro: "Address already in use". Por que ocorre: Você já tem outro terminal rodando o projeto. Encerre os outros terminais.
+
+PASSO FINAL: ACESSAR O DASHBOARD
+
+No navegador: Abra o Chrome ou Safari e digite o seguinte endereço na barra de endereços:
+
+http://127.0.0.1:5000
+
+DECISÕES DE PROJETO
+
+Playwright vs Requests: Optei pelo Playwright para garantir a renderização de elementos dinâmicos (JavaScript) e evitar bloqueios de bot (erro 403), simulando um comportamento humano. Flask: Utilizado para criar uma ponte simples entre a interface web e o script de automação.
+
+ORDENAÇÃO
+
+Amazon: Parâmetro de URL para "Mais Vendidos". Mercado Livre: Busca padrão "Mais Relevantes" (proxy para vendas conforme documentação).
+
+LIMITAÇÕES CONHECIDAS
+
+O processo é síncrono; a interface aguarda o fim do scraping para exibir resultados (tempo médio: 20 a 40 segundos dependendo da internet). Depende da estrutura HTML dos marketplaces; mudanças drásticas no layout dos sites podem exigir atualização dos seletores CSS no código.
+
+Desenvolvido como parte do teste técnico para Originenow.
