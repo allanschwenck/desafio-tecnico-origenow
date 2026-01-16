@@ -34,7 +34,7 @@ Este projeto é uma solução full-stack para extração e visualização de dad
     ```bash
     python app.py
     ```
-5.  **Acesse no navegador:**
+5.  **No navegador:**
     Abra `http://127.0.0.1:5000`
 
 ## Decisões de Projeto
