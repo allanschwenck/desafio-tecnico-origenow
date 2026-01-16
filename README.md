@@ -1,6 +1,6 @@
 DESAFIO TÉCNICO - MONITORAMENTO DE MARKETPLACES (TOP 30)
 
-Este projeto é uma solução full-stack para remoção e visualização de dados de e-commerce (Mercado Livre e Amazon). O sistema realiza scraping automatizado, processa os dados e apresenta um dashboard interativo.
+Este projeto é uma solução full-stack para visualização de dados de e-commerce (Mercado Livre e Amazon). O sistema realiza scraping automatizado, processa os dados e apresenta um dashboard interativo.
 
 FUNCIONALIDADES
 
