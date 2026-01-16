@@ -17,6 +17,7 @@ Python 3.8 ou superior. Navegadores instalados (via Playwright).
 MANUAL DE INSTRUÇÕES E RESOLUÇÃO DE PROBLEMAS (USANDO VS CODE, MAS PODE-SE USAR QUALQUER OUTRO EDITOR)
 
 Siga este guia para rodar o projeto utilizando o terminal do VS Code.
+Comandos alternativos são sugeridos por conta de problemas de PATH (Windows não sabe onde o Python está instalado), isso acontece quando aquela caixinha "Add Python to PATH" não é marcada na instalação.
 
 PASSO 1: ABRIR O TERMINAL NO VS CODE
 
@@ -40,6 +41,8 @@ PASSO 3: INSTALAR O NAVEGADOR DE AUTOMAÇÃO
 
 Comando (Windows): python -m playwright install chromium
 
+Comando Alternativo (Windows - se o de cima falhar): py -m playwright install chromium
+
 Comando (Mac): python3 -m playwright install chromium
 
 O que esse comando faz: Baixa especificamente o navegador Chromium adaptado para automação. Usamos "python -m" novamente para garantir que o comando seja executado corretamente pela biblioteca que acabamos de instalar.
@@ -51,6 +54,8 @@ Erro de conexão: Por que ocorre: Internet instável ou bloqueio de rede corpora
 PASSO 4: RODAR A APLICAÇÃO
 
 Comando (Windows): python app.py
+
+Comando Alternativo (Windows - se o de cima falhar): py app.py
 
 Comando (Mac): python3 app.py
 
